@@ -8,19 +8,20 @@ Created on Fri Oct 29 2021
 import gym
 import pdb
 from gym import spaces
-from gym.envs.toy_text import discrete
+# from gym.envs.toy_text import discrete
+from gym.spaces import Discrete
 import numpy as np
 from numpy import matlib as mb
 
 import matplotlib.pyplot as plt
-from control.matlab import *
+# from control.matlab import *
 from gym_dfn.envs.ParamFile_LCO2 import *
 from gym_dfn.envs.DFN_Utils import *
 
 
 DISCRETE = False
 
-class DFN(discrete.DiscreteEnv):
+class DFN(Discrete):
 
 
 
@@ -40,7 +41,7 @@ class DFN(discrete.DiscreteEnv):
 		# Battery specification
 		#==============================================================================
 
-		self.discrete = DISCRETE
+		self.Discrete = DISCRETE
 
 		cn_low, cp_low = init_cs_LCO(p, p['volt_min'])
 		cn_high, cp_high = init_cs_LCO(p, p['volt_max'])
@@ -251,7 +252,7 @@ class DFN(discrete.DiscreteEnv):
 
 		'''
 
-		if self.discrete:
+		if self.Discrete:
 			self.currents = np.linspace(-50, 0, 20)
 		
 
@@ -294,7 +295,7 @@ class DFN(discrete.DiscreteEnv):
 
 	@property
 	def action_space(self):
-		if self.discrete:
+		if self.Discrete:
 			return spaces.Discrete(20)
 		else: # continuous case.
 			return spaces.Box(dtype=np.float32, low=-150, high=0, shape=(1,))
@@ -315,7 +316,7 @@ class DFN(discrete.DiscreteEnv):
 		is_done = False
 		is_error = False
 
-		if self.discrete:
+		if self.Discrete:
 			# if not self.action_space.contains(action):
 			# 	print('invalid action!')
 			# 	return None
